@@ -33,9 +33,7 @@ jobs:
       - name: Run tests
         run: |
           source venv/bin/activate
-          pytest tests/unit/ --cov=src --junitxml=test-results/junit.xml
-          pytest tests/integration/
-          pytest tests/e2e/
+          pytest tests/ --cov=app --cov-report=xml --cov-report=html
 
   security:
     needs: test
