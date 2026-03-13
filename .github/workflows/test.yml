@@ -82,8 +82,8 @@ jobs:
         with:
           push: true
           tags: |
-            docker.io/GerraAyush/assignment-repo:latest
-            docker.io/GerraAyush/assignment-repo:${{ github.sha }}
+            docker.io/ayushgerra/assignment-repo:latest
+            docker.io/ayushgerra/assignment-repo:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=docker.io/GerraAyush/assignment-repo:cache
+          cache-from: type=registry,ref=docker.io/ayushgerra/assignment-repo:cache
           cache-to: type=inline,mode=max
