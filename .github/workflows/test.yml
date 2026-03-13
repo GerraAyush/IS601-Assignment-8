@@ -82,8 +82,8 @@ jobs:
         with:
           push: true
           tags: |
-            GerraAyush/601_module8:latest
-            GerraAyush/601_module8:${{ github.sha }}
+            GerraAyush/assignment-repo:latest
+            GerraAyush/assignment-repo:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=GerraAyush/601_module8:cache
+          cache-from: type=registry,ref=GerraAyush/assignment-repo:cache
           cache-to: type=inline,mode=max
