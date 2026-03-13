@@ -48,15 +48,18 @@ jobs:
       - name: Build image
         run: docker build -t app:test .
       
-      - name: Run Trivy vulnerability scanner
-        # Using a specific version tag instead of @master is safer
-        uses: aquasecurity/trivy-action@0.29.0 
-        with:
-          image-ref: 'app:test'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          severity: 'CRITICAL,HIGH'
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      - name: Scan image
+        run: |
+          trivy image --exit-code 1 --severity HIGH,CRITICAL app:test
 
   deploy:
     needs: security
