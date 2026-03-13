@@ -47,6 +47,8 @@ jobs:
   security:
     needs: test
     runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: "--no-deprecation" # This hides the punycode warning
     steps:
       - uses: actions/checkout@v4
       
