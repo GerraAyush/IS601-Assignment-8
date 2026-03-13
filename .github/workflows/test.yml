@@ -14,32 +14,24 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # Updated from v3
+      - uses: actions/checkout@v4
       
-      - uses: actions/setup-python@v5 # Updated from v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          
-      - uses: actions/cache@v4 # Updated from v3
-        with:
-          path: |
-            venv
-            ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          cache: 'pip' # Built-in caching is much more stable than manual actions/cache
 
       - name: Install dependencies
         run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          playwright install
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # Use npx to run playwright so you don't need the venv path
+          npx playwright install --with-deps 
 
       - name: Run tests
         run: |
-          source venv/bin/activate
+          # No need to source venv; setup-python puts pip packages in the path
           pytest tests/unit/ --cov=src --junitxml=test-results/junit.xml
           pytest tests/integration/
           pytest tests/e2e/
