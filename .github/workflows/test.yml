@@ -78,12 +78,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
-      - uses: docker/build-push-action@v6 # Updated from v5
+      - uses: docker/build-push-action@v6
         with:
           push: true
           tags: |
-            GerraAyush/assignment-repo:latest
-            GerraAyush/assignment-repo:${{ github.sha }}
+            docker.io/GerraAyush/assignment-repo:latest
+            docker.io/GerraAyush/assignment-repo:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=GerraAyush/assignment-repo:cache
+          cache-from: type=registry,ref=docker.io/GerraAyush/assignment-repo:cache
           cache-to: type=inline,mode=max
